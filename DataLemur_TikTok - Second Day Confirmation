@@ -1,0 +1,6 @@
+SELECT
+emails.user_id
+from emails
+left join texts 
+on emails.email_id = texts.email_id
+where (date(texts.action_date) - date(emails.signup_date)) = 1

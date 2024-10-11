@@ -1,0 +1,19 @@
+WITH
+min_max_post as (
+  SELECT user_id,
+  min(post_date) as first_post,
+  max(post_date) as last_post
+  FROM posts
+  where extract(year from post_date) = 2021
+  group by user_id
+),
+
+substract as (
+  select min_max_post.user_id,
+  (date(min_max_post.last_post) - date(min_max_post.first_post)) as days_between
+  from min_max_post
+  group by 1, 2
+) 
+
+select * from substract
+where days_between != 0
